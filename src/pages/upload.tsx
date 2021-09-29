@@ -1,8 +1,12 @@
 import React from 'react';
+import Header from '../components/Header';
 
 function Upload() {
     return (
-        <div>Upload</div>
+        <div>
+            <Header />
+            <div>Upload</div>
+        </div>
     )
 }
 

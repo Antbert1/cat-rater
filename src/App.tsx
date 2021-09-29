@@ -3,10 +3,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import store from './redux/store';
 import {
   BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  Redirect
+  Route
 } from 'react-router-dom';
 import RootPage from './pages';
 import Upload from './pages/upload';
