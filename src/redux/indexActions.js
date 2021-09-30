@@ -1,8 +1,8 @@
-export const TEMP = 'TEMP';
+export const CATLIST = 'CATLIST';
 
-export function setTemp(temp) {
+export function setCatList(catList) {
     return {
-        type: TEMP,
-        temp,
+        type: CATLIST,
+        catList,
     };
 }

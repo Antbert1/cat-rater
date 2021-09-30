@@ -1,18 +1,19 @@
 import { combineReducers } from 'redux';
-import { TEMP } from './indexActions';
+import { CATLIST } from './indexActions';
 const dataState = {
-    temp: ""
+    catList: []
 };
 
 const dataReducer = (state = dataState, action) => {
     switch (action.type) {
-        case TEMP:
-            state = Object.assign({}, state, { temp: action.temp });
+        case CATLIST:
+            state = Object.assign({}, state, { catList: action.catList });
             return state;
         default:
             return state;
     }
 }
+
 
 const rootReducer = combineReducers({
     dataReducer,
