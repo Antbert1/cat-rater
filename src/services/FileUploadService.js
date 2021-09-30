@@ -10,14 +10,10 @@ const upload = (file, fileName, onUploadProgress) => {
         headers: {
             "Content-Type": "multipart/form-data",
             "x-api-key": "45d49036-1938-44e2-b443-af805aeb55fb"
-        },
-        onUploadProgress,
+        }
     });
 };
 
-// const getFiles = () => {
-//     return http.get("/files");
-// };
 
 export default {
     upload,

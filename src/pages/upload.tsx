@@ -2,15 +2,26 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import UploadService from "../services/FileUploadService";
+import defaultImg from '../assets/blankCat.png';
+import back from '../assets/images/backChevron.png';
 
 function Upload() {
     const [selectedFiles, setSelectedFiles] = useState("");
+    const [imageSrc, setImageSrc] = useState(defaultImg);
     const [currentFile, setCurrentFile] = useState("");
     const [message, setMessage] = useState("");
-    const [fileInfos, setFileInfos] = useState([]);
 
     const selectFile = (event: any) => {
         setSelectedFiles(event.target.files);
+        let files = event.target.files;
+        if (files.length > 0) {
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onloadend = function (e) {
+                let image = reader.result as string;
+                setImageSrc(image)
+            }
+        }
     };
 
     const upload = () => {
@@ -23,10 +34,6 @@ function Upload() {
             .then((response) => {
                 setMessage(response.data.message);
                 // return UploadService.getFiles();
-            })
-            .then((files) => {
-                debugger;
-
             })
             .catch(() => {
                 // setProgress(0);
@@ -41,10 +48,23 @@ function Upload() {
         <div>
             <Header />
             <div>
+                <div className="catImage">
+                    <img src={imageSrc} alt="blank cat" />
+                </div>
+                <div className="uploaderContent">
+                    <label htmlFor="image-upload" className="customImgUpload buttonStyle">
+                        UPLOAD CAT
+                    </label>
+                </div>
+                <input
+                    type="file"
+                    id="image-upload"
+                    name="imageFile"
+                    accept="image/jpeg, image/png"
+                    onChange={selectFile}
+                    className="defaultInput"
+                />
 
-                <label className="btn btn-default">
-                    <input type="file" onChange={selectFile} />
-                </label>
 
                 <button
                     className="btn btn-success"
@@ -56,9 +76,6 @@ function Upload() {
 
                 <div className="alert alert-light" role="alert">
                     {message}
-                </div>
-
-                <div className="card">
                 </div>
             </div>
         </div>
