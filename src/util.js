@@ -9,9 +9,6 @@ export function retrieveCats(preUrl, requestOptions) {
             } else {
                 let unique = removeDuplicates(responseJson, "sub_id");
                 return getFavourites(preUrl, requestOptions, unique);
-                // Set these cats in the reducer
-                // self.props.actions.setCatList(self.removeDuplicates(responseJson, "sub_id"));
-
             }
         })
         .catch((error) => {
@@ -63,9 +60,11 @@ function addFavouritesAndVotes(cats, favourites, votes) {
     cats.map((cat) => {
         cat.favourite = false;
         cat.votes = 0;
+        cat.favouriteID = -1;
         for (var i = 0; i < favourites.length; i++) {
             if (favourites[i].image_id === cat.id) {
                 cat.favourite = true;
+                cat.favouriteID = favourites[i].id;
             }
         }
         for (var j = 0; j < votes.length; j++) {
@@ -78,4 +77,21 @@ function addFavouritesAndVotes(cats, favourites, votes) {
     return cats;
 }
 
+export function favouriteCat(url, requestOptions) {
+    return (
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then((responseJson) => {
+                if (responseJson.message === 'SUCCESS') {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                return (false);
+            })
+    );
+}
 

@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import { setCatList } from '../redux/indexActions';
-import { retrieveCats } from '../util';
+import { favouriteCat, retrieveCats } from '../util';
 const preUrl = 'https://api.thecatapi.com';
 
 function RootPage() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState(false);
+    const [faveError, setFaveError] = useState(false);
     const catList = useSelector((state: RootStateOrAny) => state.dataReducer.catList);
     useEffect(() => {
         getCats();
@@ -34,6 +38,42 @@ function RootPage() {
     }
 
     function favourite(cat: any, favourite: boolean) {
+        var bodyToSend = {
+            "image_id": cat.id,
+            "sub_id": cat.sub_id
+        }
+        //Choose request options and url based on if it's a favourite or unfavourite
+        let requestOptions = {};
+        if (favourite) {
+            requestOptions = {
+                method: 'POST',
+                headers: { 'content-type': 'application/json', 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb' },
+                body: JSON.stringify(bodyToSend)
+            };
+        } else {
+            requestOptions = {
+                method: 'DELETE',
+                headers: { 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb' }
+            };
+        }
+
+        let url = (favourite ? preUrl + "/v1/favourites" : preUrl + "/v1/favourites/" + cat.favouriteID);
+
+        favouriteCat(url, requestOptions).then(function (result) {
+            if (result) {
+                let newCats = [...catList];
+                for (var i = 0; i < catList.length; i++) {
+                    if (catList[i].id === cat.id) {
+                        newCats[i].favourite = favourite;
+                    }
+                }
+                dispatch(setCatList(newCats));
+            } else {
+                setFaveError(true);
+            }
+
+        })
+
 
     }
 
@@ -49,13 +89,13 @@ function RootPage() {
                         <img src={cat.url} alt="cat" />
                         <div className="extraInfo">
                             {cat.favourite ?
-                                <i className="fas fa-heart heart" onClick={() => favourite(cat, false)}></i>
+                                <FontAwesomeIcon icon={faHeart} onClick={() => favourite(cat, false)} />
                                 :
-                                <i className="far fa-heart heart" onClick={() => favourite(cat, true)}></i>
+                                <FontAwesomeIcon icon={farHeart} onClick={() => favourite(cat, true)} />
                             }
                             <div className="votes">
-                                <i className="fas fa-arrow-up voteArrow voteArrowU" onClick={() => vote(cat, true)}></i>
-                                <i className="fas fa-arrow-down voteArrow voteArrowD" onClick={() => vote(cat, false)}></i>
+                                <FontAwesomeIcon icon={faArrowUp} onClick={() => vote(cat, true)} />
+                                <FontAwesomeIcon icon={faArrowDown} onClick={() => vote(cat, false)} />
                                 <div className="totalVotes">
                                     {cat.votes}
                                 </div>
@@ -71,8 +111,8 @@ function RootPage() {
     return (
         <div>
             <Header root />
+            {loading && <Loading />}
             <div className="container">
-                {loading && <Loading />}
                 {errorMsg &&
                     <div className="catRetrievalError">
                         There has been a problem retrieving your cats. Please check your internet connection and try again
