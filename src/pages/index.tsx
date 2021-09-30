@@ -36,7 +36,7 @@ function RootPage() {
     function showCats() {
         return catList.map((cat: Object, index: number) => {
             return (
-                <div>test</div>
+                <div key={index}>test</div>
             );
         });
 

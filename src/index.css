@@ -48,6 +48,12 @@
   align-items: center;
 }
 
+.uploadSection a {
+  color: white;
+  text-decoration: none;
+}
+
 .uploadCatIcon {
   text-align: center;
+  cursor: pointer;
 }

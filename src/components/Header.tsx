@@ -1,10 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCat, faUpload } from '@fortawesome/free-solid-svg-icons'
 
-
-
 function Header(props: any) {
+
     return (
         <section className="header">
             <div className="container">
@@ -14,10 +14,12 @@ function Header(props: any) {
                     </div>
                     <div className="col-md-6 uploadSection">
                         {props.root &&
-                            <div className="uploadCatIcon">
-                                <FontAwesomeIcon icon={faUpload} />
-                                <div className="uploadText">Upload New Cat</div>
-                            </div>
+                            <Link to="/upload">
+                                <div className="uploadCatIcon">
+                                    <FontAwesomeIcon icon={faUpload} />
+                                    <div className="uploadText">Upload New Cat</div>
+                                </div>
+                            </Link>
                         }
                     </div>
                 </div>
