@@ -95,3 +95,21 @@ export function favouriteCat(url, requestOptions) {
     );
 }
 
+export function voteCat(preUrl, requestOptions) {
+    return (
+        fetch(`${preUrl}/v1/votes`, requestOptions)
+            .then(response => response.json())
+            .then((responseJson) => {
+                if (responseJson.message === 'SUCCESS') {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+                return (false);
+            })
+    );
+}
+

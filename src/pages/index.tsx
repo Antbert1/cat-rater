@@ -6,7 +6,7 @@ import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import { setCatList } from '../redux/indexActions';
-import { favouriteCat, retrieveCats } from '../util';
+import { favouriteCat, retrieveCats, voteCat } from '../util';
 const preUrl = 'https://api.thecatapi.com';
 
 function RootPage() {
@@ -14,6 +14,7 @@ function RootPage() {
     const [loading, setLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState(false);
     const [faveError, setFaveError] = useState(false);
+    const [voteError, setVoteError] = useState(false);
     const catList = useSelector((state: RootStateOrAny) => state.dataReducer.catList);
     useEffect(() => {
         getCats();
@@ -77,8 +78,31 @@ function RootPage() {
 
     }
 
-    function vote(cat: any, vote: boolean) {
+    function vote(cat: any, vote: number) {
+        var bodyToSend = {
+            "image_id": cat.id,
+            "sub_id": cat.sub_id,
+            "value": vote
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'content-type': 'application/json', 'x-api-key': '45d49036-1938-44e2-b443-af805aeb55fb' },
+            body: JSON.stringify(bodyToSend)
+        };
 
+        voteCat(preUrl, requestOptions).then(function (result) {
+            if (result) {
+                let newCats = [...catList];
+                for (var i = 0; i < catList.length; i++) {
+                    if (catList[i].id === cat.id) {
+                        newCats[i].votes = vote;
+                    }
+                }
+                dispatch(setCatList(newCats));
+            } else {
+                setVoteError(true);
+            }
+        });
     }
 
     function showCats() {
@@ -94,8 +118,8 @@ function RootPage() {
                                 <FontAwesomeIcon icon={farHeart} onClick={() => favourite(cat, true)} />
                             }
                             <div className="votes">
-                                <FontAwesomeIcon icon={faArrowUp} onClick={() => vote(cat, true)} />
-                                <FontAwesomeIcon icon={faArrowDown} onClick={() => vote(cat, false)} />
+                                <FontAwesomeIcon icon={faArrowUp} onClick={() => vote(cat, 1)} />
+                                <FontAwesomeIcon icon={faArrowDown} onClick={() => vote(cat, 0)} />
                                 <div className="totalVotes">
                                     {cat.votes}
                                 </div>
