@@ -33,10 +33,36 @@ function RootPage() {
         });
     }
 
+    function favourite(cat: any, favourite: boolean) {
+
+    }
+
+    function vote(cat: any, vote: boolean) {
+
+    }
+
     function showCats() {
-        return catList.map((cat: Object, index: number) => {
+        return catList.map((cat: any, index: number) => {
             return (
-                <div key={index}>test</div>
+                <div key={index} className="catContainer" >
+                    <div className="innerContainer">
+                        <img src={cat.url} alt="cat" />
+                        <div className="extraInfo">
+                            {cat.favourite ?
+                                <i className="fas fa-heart heart" onClick={() => favourite(cat, false)}></i>
+                                :
+                                <i className="far fa-heart heart" onClick={() => favourite(cat, true)}></i>
+                            }
+                            <div className="votes">
+                                <i className="fas fa-arrow-up voteArrow voteArrowU" onClick={() => vote(cat, true)}></i>
+                                <i className="fas fa-arrow-down voteArrow voteArrowD" onClick={() => vote(cat, false)}></i>
+                                <div className="totalVotes">
+                                    {cat.votes}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             );
         });
 
@@ -45,13 +71,24 @@ function RootPage() {
     return (
         <div>
             <Header root />
-            {loading ?
-                <Loading />
-                :
-                <div>
-                    {showCats()}
-                </div>
-            }
+            <div className="container">
+                {loading && <Loading />}
+                {errorMsg &&
+                    <div className="catRetrievalError">
+                        There has been a problem retrieving your cats. Please check your internet connection and try again
+                    </div>
+                }
+                {catList.length === 0 && !loading ?
+                    <div className="catRetrievalError">
+                        No cats yet. Click up Upload Cat to get started.
+                    </div>
+                    :
+                    <div className="catRows">
+                        {showCats()}
+                    </div>
+                }
+            </div>
+
         </div>
     )
 }
