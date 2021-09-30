@@ -72,10 +72,7 @@ function RootPage() {
             } else {
                 setFaveError(true);
             }
-
-        })
-
-
+        });
     }
 
     function vote(cat: any, vote: number) {
@@ -113,9 +110,19 @@ function RootPage() {
                         <img src={cat.url} alt="cat" />
                         <div className="extraInfo">
                             {cat.favourite ?
-                                <FontAwesomeIcon icon={faHeart} onClick={() => favourite(cat, false)} />
+                                <div>
+                                    <FontAwesomeIcon icon={faHeart} onClick={() => favourite(cat, false)} />
+                                    {(faveError || voteError) &&
+                                        <div>Something went wrong</div>
+                                    }
+                                </div>
                                 :
-                                <FontAwesomeIcon icon={farHeart} onClick={() => favourite(cat, true)} />
+                                <div>
+                                    <FontAwesomeIcon icon={farHeart} onClick={() => favourite(cat, true)} />
+                                    {(faveError || voteError) &&
+                                        <div>Something went wrong</div>
+                                    }
+                                </div>
                             }
                             <div className="votes">
                                 <FontAwesomeIcon icon={faArrowUp} onClick={() => vote(cat, 1)} />

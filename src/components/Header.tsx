@@ -8,8 +8,10 @@ function Header(props: any) {
         <section className="header">
             <div className="container">
                 <div className="row headerRow">
-                    <div className="col-md-6">
-                        <h1> <FontAwesomeIcon icon={faCat} /> All Cats are Beautiful</h1>
+                    <div className="col-md-6 logoSection">
+                        <Link to="/">
+                            <h1> <FontAwesomeIcon icon={faCat} /> All Cats are Beautiful</h1>
+                        </Link>
                     </div>
                     <div className="col-md-6 uploadSection">
                         {props.root &&

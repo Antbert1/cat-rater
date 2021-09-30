@@ -1,10 +1,10 @@
 import http from "../http-common";
 
-const upload = (file, fileName, onUploadProgress) => {
+const upload = (file, onUploadProgress) => {
     let formData = new FormData();
 
     formData.append("file", file);
-    formData.append("sub_id", fileName);
+    formData.append("sub_id", file.name);
 
     return http.post("/v1/images/upload", formData, {
         headers: {
