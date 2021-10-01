@@ -60,6 +60,7 @@ a {
 
 .uploadSection a {
   color: white;
+  text-decoration: none;
 }
 
 .uploadCatIcon {
@@ -104,6 +105,19 @@ a {
   justify-content: space-between;
 }
 
+.customHeart {
+  color: #EB394C;
+  cursor: pointer;
+}
+
+.vote {
+  color: grey;
+}
+
+.upVote {
+  margin-right: 5px;
+}
+
 /* Uploader Styles */
 .uploaderContent {
   display: flex;
@@ -113,6 +127,10 @@ a {
 .back {
   color: black;
   font-size: 20px;
+}
+
+.uploadContainer a {
+  text-decoration: none;
 }
 
 /* Give this a width and height and sit whatever image into it */

@@ -47,7 +47,7 @@ function Upload(props: any) {
     return (
         <div>
             <Header />
-            <div className="container">
+            <div className="container uploadContainer">
                 <Link to="/">
                     <div className="back">
                         <img src={back} alt={"back chevron"} />

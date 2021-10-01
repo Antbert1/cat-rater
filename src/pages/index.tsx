@@ -59,7 +59,6 @@ function RootPage() {
         }
 
         let url = (favourite ? preUrl + "/v1/favourites" : preUrl + "/v1/favourites/" + cat.favouriteID);
-
         favouriteCat(url, requestOptions).then(function (result) {
             if (result) {
                 let newCats = [...catList];
@@ -111,22 +110,22 @@ function RootPage() {
                         <div className="extraInfo">
                             {cat.favourite ?
                                 <div>
-                                    <FontAwesomeIcon icon={faHeart} onClick={() => favourite(cat, false)} />
+                                    <FontAwesomeIcon className="customHeart" icon={faHeart} onClick={() => favourite(cat, false)} />
                                     {(faveError || voteError) &&
                                         <div>Something went wrong</div>
                                     }
                                 </div>
                                 :
                                 <div>
-                                    <FontAwesomeIcon icon={farHeart} onClick={() => favourite(cat, true)} />
+                                    <FontAwesomeIcon className="customHeart" icon={farHeart} onClick={() => favourite(cat, true)} />
                                     {(faveError || voteError) &&
                                         <div>Something went wrong</div>
                                     }
                                 </div>
                             }
                             <div className="votes">
-                                <FontAwesomeIcon icon={faArrowUp} onClick={() => vote(cat, 1)} />
-                                <FontAwesomeIcon icon={faArrowDown} onClick={() => vote(cat, 0)} />
+                                <FontAwesomeIcon className="vote upVote" icon={faArrowUp} onClick={() => vote(cat, 1)} />
+                                <FontAwesomeIcon className="vote" icon={faArrowDown} onClick={() => vote(cat, 0)} />
                                 <div className="totalVotes">
                                     {cat.votes}
                                 </div>
