@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import Header from '../components/Header';
 import UploadService from "../services/FileUploadService";
 import defaultImg from '../assets/blankCat.png';
@@ -43,7 +42,6 @@ function Upload(props: any) {
             });
 
         setSelectedFiles("");
-
     };
 
     return (
@@ -82,8 +80,6 @@ function Upload(props: any) {
                             Submit
                         </button>
                     </div>
-
-
                     <div className="alert alert-light" role="alert">
                         {message}
                     </div>

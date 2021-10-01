@@ -5,17 +5,17 @@ import { faHeart, faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-ico
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import { setCatList } from '../redux/indexActions';
+import { setCatList, setLoading } from '../redux/indexActions';
 import { favouriteCat, retrieveCats, voteCat } from '../util';
 const preUrl = 'https://api.thecatapi.com';
 
 function RootPage() {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState(false);
     const [faveError, setFaveError] = useState(false);
     const [voteError, setVoteError] = useState(false);
     const catList = useSelector((state: RootStateOrAny) => state.dataReducer.catList);
+    const loading = useSelector((state: RootStateOrAny) => state.dataReducer.loading);
     useEffect(() => {
         getCats();
     }, []);
@@ -27,7 +27,7 @@ function RootPage() {
         };
 
         retrieveCats(preUrl, requestOptions).then(function (result) {
-            setLoading(false);
+            dispatch(setLoading(false));
             if (result === "Error") {
                 setErrorMsg(true);
             } else {
